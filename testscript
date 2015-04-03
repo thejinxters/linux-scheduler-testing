@@ -1,26 +1,27 @@
 #/!/bin/bash
 
-ITERATIONS=100000000
-BYTESTOCOPY=102400
-BLOCKSIZE=1024
-TIMEFORMAT="wall=%e user=%U system=%S CPU=%P i-switched=%c v-switched=%w"
+TIMEHEADERS="program, processes, scheduler, Wall, User, System, CPU, I-Switched, V-Switched"
+TIMEFORMAT_ORIG="%e, %U, %S, %P, %c, %w"
 MAKE="make -s"
 
 echo Building code...
 $MAKE clean
 $MAKE
 
-echo Starting test runs...
+scheduler_types=(SCHED_OTHER SCHED_FIFO SCHED_RR)
+programs=(pi-sched rw-sched pi-rw-sched)
+processes=(200 2000 200000)
 
-echo Calculating pi over $ITERATIONS iterations using SCHED_OTHER with 1 simultaneous process...
-/usr/bin/time -f "$TIMEFORMAT" ./pi-sched $ITERATIONS SCHED_OTHER > /dev/null
-
-echo Calculating pi over $ITERATIONS iterations using SCHED_FIFO with 1 simultaneous process...
-/usr/bin/time -f "$TIMEFORMAT" sudo ./pi-sched $ITERATIONS SCHED_FIFO > /dev/null
-
-echo Calculating pi over $ITERATIONS iterations using SCHED_RR with 1 simultaneous process...
-/usr/bin/time -f "$TIMEFORMAT" sudo ./pi-sched $ITERATIONS SCHED_RR > /dev/null
-
-echo Copying $BYTESTOCOPY bytes in blocks of $BLOCKSIZE from rwinput to rwoutput
-echo using SCHED_OTHER with 1 simultaneous process...
-/usr/bin/time -f "$TIMEFORMAT" ./rw-sched $BYTESTOCOPY $BLOCKSIZE rwinput rwoutput SCHED_RR> /dev/null
+echo "$TIMEHEADERS" > results.csv
+for sched in ${scheduler_types[@]}; do
+	for prog in ${programs[@]}; do
+		for proc in ${processes[@]}; do
+			echo "Testing the following: $sched $prog $proc"
+			echo "" >> results.csv
+			TIMEFORMAT="$prog, $proc, $sched, $TIMEFORMAT_ORIG"
+			for i in `seq 1 10`; do
+				/usr/bin/time -f "$TIMEFORMAT" -o results.csv --append ./driver $prog $proc $sched > /dev/null
+			done
+		done
+	done
+done

@@ -8,3 +8,7 @@ pi
 rw-sched
 rw
 rwinput
+rwoutput*
+results.csv
+
+.DS_STORE

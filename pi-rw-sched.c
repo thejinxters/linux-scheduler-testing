@@ -31,7 +31,7 @@
 #define DEFAULT_OUTPUTFILENAMEBASE "rwoutput"
 #define DEFAULT_BLOCKSIZE 1024
 #define DEFAULT_TRANSFERSIZE 1024*100
-#define DEFAULT_ITERATIONS 100000000
+#define DEFAULT_ITERATIONS 1000000
 #define RADIUS (RAND_MAX / 2)
 
 inline double dist(double x0, double y0, double x1, double y1){

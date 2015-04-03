@@ -61,6 +61,7 @@ clean: testclean
 	rm -f handout/*~
 	rm -f handout/*.log
 	rm -f handout/*.aux
+	rm -f results.csv
 
 testclean:
 	rm -f rwoutput*
