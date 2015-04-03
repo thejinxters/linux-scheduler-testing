@@ -55,73 +55,24 @@ int main(int argc, char* argv[]){
     int totalWrites = 0;
     int inputFileResets = 0;
     
-    /* Process program arguments to select run-time parameters */
-    /* Set supplied transfer size or default if not supplied */
-    if(argc < 2){
 	transfersize = DEFAULT_TRANSFERSIZE;
-    }
-    else{
-	transfersize = atol(argv[1]);
-	if(transfersize < 1){
-	    fprintf(stderr, "Bad transfersize value\n");
-	    exit(EXIT_FAILURE);
-	}
-    }
-    /* Set supplied block size or default if not supplied */
-    if(argc < 3){
 	blocksize = DEFAULT_BLOCKSIZE;
-    }
-    else{
-	blocksize = atol(argv[2]);
-	if(blocksize < 1){
-	    fprintf(stderr, "Bad blocksize value\n");
-	    exit(EXIT_FAILURE);
-	}
-    }
-    /* Set supplied input filename or default if not supplied */
-    if(argc < 4){
-	if(strnlen(DEFAULT_INPUTFILENAME, MAXFILENAMELENGTH) >= MAXFILENAMELENGTH){
-	    fprintf(stderr, "Default input filename too long\n");
-	    exit(EXIT_FAILURE);
-	}
 	strncpy(inputFilename, DEFAULT_INPUTFILENAME, MAXFILENAMELENGTH);
-    }
-    else{
-	if(strnlen(argv[3], MAXFILENAMELENGTH) >= MAXFILENAMELENGTH){
-	    fprintf(stderr, "Input filename too long\n");
-	    exit(EXIT_FAILURE);
-	}
-	strncpy(inputFilename, argv[3], MAXFILENAMELENGTH);
-    }
-    /* Set supplied output filename base or default if not supplied */
-    if(argc < 5){
-	if(strnlen(DEFAULT_OUTPUTFILENAMEBASE, MAXFILENAMELENGTH) >= MAXFILENAMELENGTH){
-	    fprintf(stderr, "Default output filename base too long\n");
-	    exit(EXIT_FAILURE);
-	}
 	strncpy(outputFilenameBase, DEFAULT_OUTPUTFILENAMEBASE, MAXFILENAMELENGTH);
-    }
-    else{
-	if(strnlen(argv[4], MAXFILENAMELENGTH) >= MAXFILENAMELENGTH){
-	    fprintf(stderr, "Output filename base is too long\n");
-	    exit(EXIT_FAILURE);
-	}
-	strncpy(outputFilenameBase, argv[4], MAXFILENAMELENGTH);
-    }
 
     /* Set policy if supplied */
-    if(argc < 6){
+    if(argc < 2){
 	   policy = SCHED_OTHER;
     }
 
-    if(argc > 5){
-    	if(!strcmp(argv[5], "SCHED_OTHER")){
+    if(argc > 1){
+    	if(!strcmp(argv[1], "SCHED_OTHER")){
     	    policy = SCHED_OTHER;
     	}
-    	else if(!strcmp(argv[5], "SCHED_FIFO")){
+    	else if(!strcmp(argv[1], "SCHED_FIFO")){
     	    policy = SCHED_FIFO;
     	}
-    	else if(!strcmp(argv[5], "SCHED_RR")){
+    	else if(!strcmp(argv[1], "SCHED_RR")){
     	    policy = SCHED_RR;
     	}
     	else{

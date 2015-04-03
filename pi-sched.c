@@ -40,32 +40,21 @@ int main(int argc, char* argv[]){
     double pCircle = 0.0;
     double piCalc = 0.0;
 
-    /* Process program arguments to select iterations and policy */
-    /* Set default iterations if not supplied */
-    if(argc < 2){
-	   iterations = DEFAULT_ITERATIONS;
-    }
+    
+	iterations = DEFAULT_ITERATIONS;
     /* Set default policy if not supplied */
-    if(argc < 3){
+    if(argc < 2){
 	   policy = SCHED_OTHER;
     }
-    /* Set iterations if supplied */
-    if(argc > 1){
-    	iterations = atol(argv[1]);
-    	if(iterations < 1){
-    	    fprintf(stderr, "Bad iterations value\n");
-    	    exit(EXIT_FAILURE);
-    	}
-    }
     /* Set policy if supplied */
-    if(argc > 2){
-    	if(!strcmp(argv[2], "SCHED_OTHER")){
+    if(argc > 1){
+    	if(!strcmp(argv[1], "SCHED_OTHER")){
     	    policy = SCHED_OTHER;
     	}
-    	else if(!strcmp(argv[2], "SCHED_FIFO")){
+    	else if(!strcmp(argv[1], "SCHED_FIFO")){
     	    policy = SCHED_FIFO;
     	}
-    	else if(!strcmp(argv[2], "SCHED_RR")){
+    	else if(!strcmp(argv[1], "SCHED_RR")){
     	    policy = SCHED_RR;
     	}
     	else{
