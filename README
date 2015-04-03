@@ -10,9 +10,6 @@ http://www.andysayler.com
 With help from:
 Junho Ahn - 2012
 
----Folders---
-handout - Assignment description and documentation
-
 ---Executables---
 ./testscript - A simple bash script for running a few sample test cases
 ./pi - A simple program for statistically calculating pi
