@@ -1,0 +1,10 @@
+*.o
+*.zip
+*.swp
+driver
+pi-rw-sched
+pi-sched
+pi
+rw-sched
+rw
+rwinput
