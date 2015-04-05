@@ -1,13 +1,3 @@
-/*
- * File: pi-sched.c
- * Author: Andy Sayler
- * Project: CSCI 3753 Programming Assignment 3
- * Create Date: 2012/03/07
- * Modify Date: 2012/03/09
- * Description:
- * 	This file contains a simple program for statistically
- *      calculating pi using a specific scheduling policy.
- */
 /* Include Flags */
 #define _GNU_SOURCE
 
@@ -86,7 +76,7 @@ int main(int argc, char* argv[]){
     struct sched_param param;
 
     ssize_t transfersize = 0;
-    ssize_t blocksize = 0; 
+    ssize_t blocksize = 0;
     char* transferBuffer = NULL;
     ssize_t buffersize;
 
@@ -97,7 +87,7 @@ int main(int argc, char* argv[]){
     ssize_t totalBytesWritten = 0;
     int totalWrites = 0;
     int inputFileResets = 0;
-    
+
     transfersize = DEFAULT_TRANSFERSIZE;
     blocksize = DEFAULT_BLOCKSIZE;
     strncpy(inputFilename, DEFAULT_INPUTFILENAME, MAXFILENAMELENGTH);
@@ -128,7 +118,7 @@ int main(int argc, char* argv[]){
 
     /* Set process to max prioty for given scheduler */
     param.sched_priority = sched_get_priority_max(policy);
-    
+
     /* Set new scheduler policy */
     fprintf(stdout, "Current Scheduling Policy: %d\n", sched_getscheduler(0));
     fprintf(stdout, "Setting Scheduling Policy to: %d\n", policy);
@@ -157,7 +147,7 @@ int main(int argc, char* argv[]){
     perror("Failed to allocate transfer buffer");
     exit(EXIT_FAILURE);
     }
-    
+
     /* Open Input File Descriptor in Read Only mode */
     if((inputFD = open(inputFilename, O_RDONLY | O_SYNC)) < 0){
     perror("Failed to open input file");
@@ -166,7 +156,7 @@ int main(int argc, char* argv[]){
 
     /* Open Output File Descriptor in Write Only mode with standard permissions*/
     rv = snprintf(outputFilename, MAXFILENAMELENGTH, "%s-%d",
-          outputFilenameBase, getpid());    
+          outputFilenameBase, getpid());
     if(rv > MAXFILENAMELENGTH){
     fprintf(stderr, "Output filenmae length exceeds limit of %d characters.\n",
         MAXFILENAMELENGTH);
@@ -200,7 +190,7 @@ int main(int argc, char* argv[]){
         totalBytesRead += bytesRead;
         totalReads++;
     }
-    
+
     /* If all bytes were read, write to output file*/
     if(bytesRead == blocksize){
         bytesWritten = write(outputFD, transferBuffer, bytesRead);
@@ -221,7 +211,7 @@ int main(int argc, char* argv[]){
         }
         inputFileResets++;
     }
-    
+
     }while(totalBytesWritten < transfersize);
 
     /* Output some possibly helpfull info to make it seem like we were doing stuff */
@@ -233,7 +223,7 @@ int main(int argc, char* argv[]){
         (inputFileResets + 1), (inputFileResets ? "es" : ""));
     fprintf(stdout, "Processed %zd bytes in blocks of %zd bytes\n",
         transfersize, blocksize);
-    
+
     /* Free Buffer */
     free(transferBuffer);
 

@@ -9,9 +9,7 @@ int main(int argc, char* argv[]){
 
 	// Argv1 = program to run
 	// Argv2 = number of processes to fork
-	// Argv3 = Scheduler 
-
-	//TODO: Check arguments for the program!
+	// Argv3 = Scheduler
 
 	if (argc != 4){
 		exit(1);
